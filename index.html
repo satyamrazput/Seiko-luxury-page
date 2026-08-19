@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SBGZ011 — Majestic Waterfall | Grand Seiko Masterpiece Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Cutive+Mono&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --ink:#0E1512;
+    --pine:#16302B;
+    --pine-deep:#03110D;
+    --burgundy:#390517;
+    --gold:#A38560;
+    --gold-soft:#C7AC85;
+    --paper:#F3F0EA;
+    --paper-flat:#E7E3DA;
+    --card:#FBFAF7;
+    --line:rgba(14,21,18,0.12);
+    --serif:'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    --sans:'Inter', -apple-system, sans-serif;
+    --mono:'Cutive Mono', monospace;
+
+    /* fluid type scale */
+    --fs-eyebrow: clamp(0.625rem, 0.55rem + 0.3vw, 0.6875rem);
+    --fs-nav: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem);
+    --fs-h1: clamp(2.15rem, 1.4rem + 5.2vw, 5.375rem);
+    --fs-h2: clamp(1.65rem, 1.2rem + 2.6vw, 3rem);
+    --fs-h2-sm: clamp(1.5rem, 1.15rem + 2vw, 2.5rem);
+    --fs-h3: clamp(1.3rem, 1.05rem + 1.4vw, 2rem);
+    --fs-h3-sm: clamp(1.15rem, 1rem + 1vw, 1.5rem);
+    --fs-lede: clamp(0.95rem, 0.85rem + 0.6vw, 1.1875rem);
+    --fs-body: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
+    --fs-body-sm: clamp(0.85rem, 0.8rem + 0.2vw, 0.9375rem);
+    --fs-caption: clamp(0.75rem, 0.7rem + 0.15vw, 0.8125rem);
+    --fs-micro: clamp(0.625rem, 0.6rem + 0.1vw, 0.6875rem);
+    --lh-tight: 1.08;
+    --lh-body: 1.75;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold); color:#fff;}
+  a{color:inherit; text-decoration:none;}
+  img{display:block; width:100%; height:100%; object-fit:cover;}
+  .eyebrow{
+    font-family:var(--sans); font-size:var(--fs-eyebrow); letter-spacing:.28em; text-transform:uppercase;
+    color:var(--gold); font-weight:600;
+  }
+  .eyebrow.on-dark{color:var(--gold-soft);}
+  h1,h2,h3{font-family:var(--serif); font-weight:500; line-height:var(--lh-tight); letter-spacing:.01em;}
+  .container{max-width:1240px; margin:0 auto; padding:0 6vw;}
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:16px 34px; font-size:clamp(0.6875rem,0.65rem+0.15vw,0.75rem); letter-spacing:.18em; text-transform:uppercase;
+    font-weight:600; border-radius:2px; cursor:pointer; border:1px solid transparent;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, color .35s ease, border-color .35s ease;
+  }
+  .btn-primary{background:var(--burgundy); color:#F3EFE8;}
+  .btn-primary:hover{transform:translateY(-2px); background:#4a0a20;}
+  .btn-ghost{border-color:rgba(255,255,255,.5); color:#fff;}
+  .btn-ghost:hover{background:rgba(255,255,255,.12); transform:translateY(-2px);}
+  .btn-line{border-color:var(--pine); color:var(--pine);}
+  .btn-line:hover{background:var(--pine); color:#fff;}
+
+  /* ===== NAV ===== */
+  #nav{
+    position:fixed; top:0; left:0; right:0; z-index:200;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 6vw; transition:background .4s ease, padding .4s ease, box-shadow .4s ease;
+  }
+  #nav.scrolled{background:rgba(243,240,234,.92); backdrop-filter:blur(10px); padding:14px 6vw; box-shadow:0 1px 0 var(--line);}
+  .brandmark{font-family:var(--serif); font-size:var(--fs-nav); letter-spacing:.14em; color:#fff; transition:color .4s ease;}
+  #nav.scrolled .brandmark{color:var(--pine-deep);}
+  .brandmark span{display:block; font-family:var(--sans); font-size:clamp(0.5rem,0.48rem+0.08vw,0.5625rem); letter-spacing:.32em; color:var(--gold-soft); margin-top:3px; font-weight:600;}
+  #nav.scrolled .brandmark span{color:var(--gold);}
+  .nav-cta{
+    font-size:clamp(0.625rem,0.6rem+0.1vw,0.6875rem); letter-spacing:.18em; text-transform:uppercase; font-weight:600;
+    color:#fff; border-bottom:1px solid rgba(255,255,255,.6); padding-bottom:4px; transition:color .4s ease, border-color .4s ease;
+  }
+  #nav.scrolled .nav-cta{color:var(--burgundy); border-color:var(--burgundy);}
+
+  /* ===== HERO ===== */
+  .hero{position:relative; height:100vh; min-height:640px; width:100%; overflow:hidden; background:var(--pine-deep);}
+  .hero video, .hero .hero-fallback{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
+ .hero::after{
+    display: none;
+  }
+  .hero-content{
+    position:relative; z-index:2; height:100%; display:flex; flex-direction:column;
+    align-items:flex-start; justify-content:flex-end; padding:0 6vw 9vh; color:#fff; max-width:900px;
+  }
+  .hero-content .eyebrow{margin-bottom:18px;}
+  .hero-content h1{font-size:var(--fs-h1); color:#fff; margin-bottom:18px;}
+  .hero-content h1 em{font-style:italic; color:var(--gold-soft);}
+  .hero-content p.lede{font-size:var(--fs-lede); font-weight:300; color:#EFE9DD; max-width:560px; line-height:1.65; margin-bottom:34px;}
+  .hero-price{font-family:var(--serif); font-size:clamp(0.875rem,0.82rem+0.25vw,0.9375rem); color:var(--gold-soft); margin-bottom:28px; letter-spacing:.02em;}
+  .hero-price b{font-size:clamp(1.05rem,1rem+0.25vw,1.1875rem); color:#fff; font-weight:500;}
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap;}
+  .scroll-cue{
+    position:absolute; bottom:26px; left:50%; transform:translateX(-50%); z-index:2;
+    color:rgba(255,255,255,.7); font-size:clamp(0.5625rem,0.55rem+0.06vw,0.625rem); letter-spacing:.3em; text-transform:uppercase;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  .scroll-cue .stem{width:1px; height:34px; background:linear-gradient(#fff,transparent); animation:scrollpulse 2s ease-in-out infinite;}
+  @keyframes scrollpulse{0%,100%{opacity:.3;} 50%{opacity:1;}}
+
+  /* ===== REVEAL ===== */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1; transform:translateY(0);}
+  .reveal-d1{transition-delay:.1s;} .reveal-d2{transition-delay:.22s;} .reveal-d3{transition-delay:.34s;} .reveal-d4{transition-delay:.46s;}
+
+  /* ===== HERITAGE ===== */
+  .heritage{padding:130px 0 120px; background:var(--paper);}
+  .heritage .grid{display:grid; grid-template-columns:1.1fr 1fr; gap:70px; align-items:center;}
+  .heritage-media{position:relative; border-radius:2px; overflow:hidden; aspect-ratio:4/5; box-shadow:0 40px 80px -30px rgba(14,21,18,.35);}
+  .heritage-media img{transition:transform 1.4s cubic-bezier(.2,.7,.2,1);}
+  .heritage-media:hover img{transform:scale(1.06);}
+  .heritage-text h2{font-size:var(--fs-h2); color:var(--pine-deep); margin:16px 0 26px;}
+  .heritage-text p{font-size:var(--fs-body); line-height:var(--lh-body); color:#3a4441; font-weight:300; margin-bottom:18px;}
+  .heritage-text p b{color:var(--pine); font-weight:600;}
+  .divider-line{width:56px; height:2px; background:var(--gold); margin:26px 0;}
+
+  /* ===== MECHANICAL ===== */
+  .mechanical{background:var(--pine-deep); color:#EFE9DD; padding:130px 0;}
+  .mechanical .head{max-width:640px; margin-bottom:70px;}
+  .mechanical .head h2{font-size:var(--fs-h2); color:#fff; margin-top:16px;}
+  .mechanical .head p{font-size:var(--fs-body); color:#B9C2BC; font-weight:300; margin-top:20px; line-height:var(--lh-body);}
+  .spec-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,.09); border-radius:2px; overflow:hidden;}
+  .spec-card{background:#0C1B17; padding:38px 28px; min-height:230px; display:flex; flex-direction:column; justify-content:space-between;}
+  .spec-num{font-family:var(--serif); font-size:clamp(0.8125rem,0.78rem+0.15vw,0.875rem); color:var(--gold-soft); letter-spacing:.06em;}
+  .spec-card h3{font-size:var(--fs-h3-sm); color:#fff; margin:22px 0 10px; font-weight:500;}
+  .spec-card p{font-size:var(--fs-caption); color:#9AA6A0; font-weight:300; line-height:1.6;}
+  .caliber-strip{margin-top:60px; display:grid; grid-template-columns:.9fr 1.1fr; gap:60px; align-items:center; border-top:1px solid rgba(255,255,255,.1); padding-top:60px;}
+  .caliber-media{border-radius:2px; overflow:hidden; aspect-ratio:1/1; background:#0C1B17;}
+  .caliber-text .eyebrow{color:var(--gold-soft);}
+  .caliber-text h3{font-size:var(--fs-h3); color:#fff; margin:14px 0 18px;}
+  .caliber-text p{color:#B9C2BC; font-weight:300; line-height:var(--lh-body); font-size:var(--fs-body); margin-bottom:14px;}
+  .caliber-link{font-size:var(--fs-caption); letter-spacing:.14em; text-transform:uppercase; color:var(--gold-soft); border-bottom:1px solid rgba(199,172,133,.5); padding-bottom:4px;}
+</style>
+</head>
+<body>
+
+<div id="konami-screen" class="konami-hidden">
+  <div class="lcd-wrap">
+    <div class="lcd-brand">SEIKO</div>
+    <div class="lcd-time" id="lcdTime">12:00</div>
+    <div class="lcd-date" id="lcdDate">SUN JAN 01</div>
+    <div class="lcd-row">
+      <span>ALARM</span><span>CHRONO</span><span>WR 50M</span>
+    </div>
+    <div class="lcd-note">MODE ENGAGED — PRESS ANY KEY TO RETURN</div>
+  </div>
+</div>
+
+<nav id="nav">
+  <div class="brandmark">GRAND SEIKO<span>MASTERPIECE COLLECTION</span></div>
+  <a href="#consult" class="nav-cta">Inquire</a>
+</nav>
+
+<section class="hero">
+  <video id="heroVideo" autoplay muted loop playsinline></video>
+  <div class="hero-content">
+    <div class="eyebrow reveal in">Masterpiece Collection — Limited Edition of 50</div>
+    <h1 class="reveal in reveal-d1">SBGZ011<br><em>Majestic Waterfall</em></h1>
+    <p class="lede reveal in reveal-d2">Platinum, hand engraved by the Micro Artist Studio in Shinshu, Japan. A manual-winding Spring Drive built to convey the eternal flow of time, as it unfolds through the Tateshina Waterfall.</p>
+    <div class="hero-price reveal in reveal-d3">MRP <b>₹ 8,100,000.00</b> — inclusive of all taxes</div>
+    <div class="hero-actions reveal in reveal-d4">
+      <a href="#consult" class="btn btn-primary">Inquire about SBGZ011</a>
+      <a href="#heritage" class="btn btn-ghost">Discover the Story</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="stem"></span></div>
+</section>
+
+<section class="heritage" id="heritage">
+  <div class="container grid">
+    <div class="heritage-media reveal">
+      <img src="" data-img="waterfall_hero" alt="Tateshina Waterfall, Shinshu, Japan">
+    </div>
+    <div class="heritage-text">
+      <div class="eyebrow reveal">Shinshu, Japan</div>
+      <h2 class="reveal reveal-d1">Where the water<br>never stops moving.</h2>
+      <p class="reveal reveal-d2">In the heart of a primeval forest in the Shinshu region of central Japan flows the <b>Tateshina Waterfall</b>. In this same region, the elite craftspeople of the <b>Micro Artist Studio</b> create the Spring Drive watches of the Grand Seiko Masterpiece Collection.</p>
+      <div class="divider-line reveal reveal-d3"></div>
+      <p class="reveal reveal-d3">This manual-winding wristwatch, crafted by these very artisans, conveys time's eternal flow in nature as it unfolds through this mystic waterfall — captured not in a photograph, but in hand-cut steel.</p>
+    </div>
+  </div>
+</section>
+
+<section class="mechanical" id="mechanical">
+  <div class="container">
+    <div class="head">
+      <div class="eyebrow on-dark reveal">The Mechanical Truth</div>
+      <h2 class="reveal reveal-d1">Caliber 9R02, without embellishment.</h2>
+      <p class="reveal reveal-d2">No complications borrowed for effect. Every figure below is a specification of the movement inside this case — built, regulated, and finished by hand at the Micro Artist Studio.</p>
+    </div>
+    <div class="spec-grid">
+      <div class="spec-card reveal"><div class="spec-num">01</div><div><h3>Manual-Winding Spring Drive</h3><p>Caliber 9R02, hand-assembled and adjusted at the Micro Artist Studio, Shiojiri.</p></div></div>
+      <div class="spec-card reveal reveal-d1"><div class="spec-num">02</div><div><h3>Dual-Spring Barrel</h3><p>Two mainsprings housed within a single barrel for sustained, even torque delivery.</p></div></div>
+      <div class="spec-card reveal reveal-d2"><div class="spec-num">03</div><div><h3>Torque Return System</h3><p>Recaptures spring energy that would otherwise be lost, extending the power reserve.</p></div></div>
+      <div class="spec-card reveal reveal-d3"><div class="spec-num">04</div><div><h3>84-Hour Power Reserve</h3><p>Power reserve indicator moved to the case back to preserve the dial's uninterrupted beauty.</p></div></div>
+    </div>
+    <div class="caliber-strip">
+      <div class="caliber-media reveal"><img src="" data-img="movement" alt="Grand Seiko Caliber 9R02 movement, case back view"></div>
+      <div class="caliber-text reveal reveal-d1">
+        <div class="eyebrow on-dark">Micro Artist Studio</div>
+        <h3>Thirty-nine jewels. No shortcuts.</h3>
+        <p>This manual winding Spring Drive movement is produced entirely within the Micro Artist Studio. The Dual-Spring Barrel and Torque Return System work together to achieve a power reserve of approximately 84 hours — enough to remove the watch on Friday evening and find it still running come Monday.</p>
+        <a href="https://www.grand-seiko.com/in-en/collections/movement/springdrive/9r02" target="_blank" rel="noopener" class="caliber-link">Details of the Caliber 9R02 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  /* ===== CRAFT ===== */
+  .craft{background:var(--paper); padding:130px 0;}
+  .craft .head{max-width:640px; margin:0 auto 90px; text-align:center;}
+  .craft .head h2{font-size:var(--fs-h2); color:var(--pine-deep); margin-top:16px;}
+  .craft .head p{font-size:var(--fs-body); color:#5a635f; font-weight:300; margin-top:18px; line-height:var(--lh-body);}
+  .craft-row{display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; margin-bottom:150px;}
+  .craft-row:last-child{margin-bottom:0;}
+  .craft-row.rev .craft-media{order:2;}
+  .craft-row.rev .craft-text{order:1;}
+  .craft-media{position:relative; aspect-ratio:5/6; border-radius:2px; overflow:hidden; box-shadow:0 40px 90px -35px rgba(14,21,18,.4);}
+  .craft-media img{transition:transform 1.5s cubic-bezier(.2,.7,.2,1);}
+  .craft-media:hover img{transform:scale(1.07);}
+  .craft-tag{position:absolute; bottom:20px; left:20px; background:rgba(3,17,13,.72); color:var(--gold-soft); font-size:var(--fs-micro); letter-spacing:.2em; text-transform:uppercase; padding:8px 14px; backdrop-filter:blur(6px);}
+  .craft-text .eyebrow{margin-bottom:14px;}
+  .craft-text h3{font-size:var(--fs-h3); color:var(--pine-deep); margin-bottom:20px;}
+  .craft-text p{font-size:var(--fs-body); line-height:var(--lh-body); color:#3a4441; font-weight:300; margin-bottom:14px;}
+  .craft-list{margin-top:22px; list-style:none;}
+  .craft-list li{display:flex; gap:12px; font-size:var(--fs-body-sm); color:#3a4441; padding:10px 0; border-top:1px solid var(--line);}
+  .craft-list li b{color:var(--pine); min-width:150px; font-weight:600;}
+
+  /* ===== SIGNATURE 3D ===== */
+  .signature{background:var(--pine-deep); padding:110px 0 130px; position:relative; overflow:hidden;}
+  .signature .head{text-align:center; max-width:600px; margin:0 auto 20px;}
+  .signature .head h2{color:#fff; font-size:var(--fs-h2); margin-top:14px;}
+  .signature .head p{color:#B9C2BC; font-weight:300; margin-top:16px; font-size:var(--fs-body);}
+  #engraving-canvas-wrap{
+    position:relative; max-width:560px; margin:50px auto 0; aspect-ratio:1/1;
+    cursor:grab;
+  }
+  #engraving-canvas-wrap:active{cursor:grabbing;}
+  #engraving-canvas-wrap canvas{width:100%!important; height:100%!important; display:block;}
+  .sig-hint{text-align:center; margin-top:22px; font-size:var(--fs-caption); letter-spacing:.2em; text-transform:uppercase; color:var(--gold-soft); opacity:.8;}
+
+  /* ===== GALLERY ===== */
+  .gallery{background:var(--paper-flat); padding:130px 0;}
+  .gallery .head{max-width:680px; margin:0 auto 80px; text-align:center;}
+  .gallery .head h2{font-size:var(--fs-h2); color:var(--pine-deep); margin-top:16px;}
+  .gallery .head p{font-size:var(--fs-body); color:#5a635f; font-weight:300; margin-top:18px; line-height:var(--lh-body);}
+  .mosaic{
+    columns:4 220px; column-gap:18px;
+  }
+  .mosaic-item{
+    break-inside:avoid; margin-bottom:18px; position:relative; overflow:hidden; border-radius:2px;
+    box-shadow:0 20px 50px -25px rgba(14,21,18,.35);
+  }
+  .mosaic-item img{transition:transform 1.3s cubic-bezier(.2,.7,.2,1);}
+  .mosaic-item:hover img{transform:scale(1.08);}
+  .mosaic-cap{
+    position:absolute; inset:auto 0 0 0; padding:22px 18px 16px;
+    background:linear-gradient(0deg, rgba(3,17,13,.85), transparent);
+    color:#fff; opacity:0; transform:translateY(8px); transition:opacity .4s ease, transform .4s ease;
+  }
+  .mosaic-item:hover .mosaic-cap{opacity:1; transform:translateY(0);}
+  .mosaic-cap .eyebrow{color:var(--gold-soft); margin-bottom:6px; font-size:var(--fs-micro);}
+  .mosaic-cap p{font-family:var(--serif); font-size:clamp(0.9375rem,0.9rem+0.2vw,1.0625rem); font-weight:500;}
+</style>
+
+<section class="craft" id="craft">
+  <div class="container">
+    <div class="head">
+      <div class="eyebrow reveal">Craftsmanship</div>
+      <h2 class="reveal reveal-d1">Three surfaces. One idea of water.</h2>
+      <p class="reveal reveal-d2">The dial, the case, and the strap were each engraved and cut to express the same motion — water finding its way through stone.</p>
+    </div>
+
+    <div class="craft-row">
+      <div class="craft-media reveal">
+        <img src="" data-img="dial_macro1" alt="Hand-engraved dial detail, SBGZ011">
+        <div class="craft-tag">The Dial</div>
+      </div>
+      <div class="craft-text reveal reveal-d1">
+        <div class="eyebrow">A dial expressing gushing spring water</div>
+        <h3>Engraved by hand, line by intersecting line.</h3>
+        <p>The hand-engraved dial comes to life through craftsmanship of the highest order. Its engraved lines run in multiple directions, intersecting in a seamless flow to capture the essence of spring water emerging from the earth.</p>
+        <p>The hour and minute hands, and each hand-applied, diamond-cut marker, are made of 14k white gold — sharp, brilliant, and legible even as the tempered gray Spring Drive seconds hand glides silently across the textured surface.</p>
+      </div>
+    </div>
+
+    <div class="craft-row rev">
+      <div class="craft-media reveal">
+        <img src="" data-img="waterfall_macro" alt="44GS case hand engraving detail">
+        <div class="craft-tag">The Case</div>
+      </div>
+      <div class="craft-text reveal reveal-d1">
+        <div class="eyebrow">A 44GS case engraved with fluid lines</div>
+        <h3>Countless lines, cut to catch every angle of light.</h3>
+        <p>Echoing the flow of water depicted on the dial, countless hand-engraved lines inspired by the mystic waterfall adorn the 44GS case. Radiating patterns flow seamlessly across the sharp ridgelines that define the 44GS design.</p>
+        <p>Zaratsu polishing and brushed finishing on the Platinum 950 case, combined with its delicately engraved surfaces, further enhance the shifting beauty of light and shadow.</p>
+      </div>
+    </div>
+
+    <div class="craft-row">
+      <div class="craft-media reveal">
+        <img src="" data-img="waterfall_wrist" alt="SBGZ011 worn on the wrist">
+        <div class="craft-tag">The Straps</div>
+      </div>
+      <div class="craft-text reveal reveal-d1">
+        <div class="eyebrow">Two straps, two expressions of water</div>
+        <h3>Crocodile leather, or the shimmer of splashing water.</h3>
+        <p>The watch is offered with two straps. A classically styled black strap, made of crocodile leather both outer and lining, finished with glazing on the outer leather.</p>
+        <ul class="craft-list">
+          <li><b>Alternate strap</b><span>Leather with metallic accents by KYOTO Leather, inspired by splashing water</span></li>
+          <li><b>Clasp</b><span>Three-fold clasp with push-button release, Platinum 950 (partly 18k white gold)</span></li>
+          <li><b>Included</b><span>An extra KYOTO Leather strap in the box</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="signature">
+  <div class="container">
+    <div class="head">
+      <div class="eyebrow on-dark reveal">Study the Engraving</div>
+      <h2 class="reveal reveal-d1">Rotate the case, by hand.</h2>
+      <p class="reveal reveal-d2">A real-time rendering of the 44GS silhouette and its radiating engraved pattern. Drag to turn it under the light.</p>
+    </div>
+    <div id="engraving-canvas-wrap" class="reveal reveal-d3"></div>
+    <div class="sig-hint">Drag to rotate · Scroll to inspect</div>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="head">
+      <div class="eyebrow reveal">A Life Measured Differently</div>
+      <h2 class="reveal reveal-d1">Not an accessory. A standard.</h2>
+      <p class="reveal reveal-d2">The SBGZ011 was not designed to be noticed. It was designed for the person who no longer needs to be.</p>
+    </div>
+    <div class="mosaic">
+      <div class="mosaic-item reveal" style="height:300px;"><img src="" data-img="life_rolls" alt="Arrival"><div class="mosaic-cap"><div class="eyebrow">08:47 PM</div><p>An entrance that requires no announcement.</p></div></div>
+      <div class="mosaic-item reveal reveal-d1" style="height:380px;"><img src="" data-img="life_library" alt="Private library"><div class="mosaic-cap"><div class="eyebrow">The Study</div><p>Time kept quietly, in rooms built for thought.</p></div></div>
+      <div class="mosaic-item reveal reveal-d2" style="height:260px;"><img src="" data-img="life_billiards" alt="Billiards room"><div class="mosaic-cap"><div class="eyebrow">After Hours</div><p>Precision, on and off the wrist.</p></div></div>
+      <div class="mosaic-item reveal reveal-d3" style="height:340px;"><img src="" data-img="life_evening" alt="Evening reception"><div class="mosaic-cap"><div class="eyebrow">The Reception</div><p>Where craftsmanship recognizes craftsmanship.</p></div></div>
+      <div class="mosaic-item reveal" style="height:340px;"><img src="" data-img="life_car" alt="Classic motorcar"><div class="mosaic-cap"><div class="eyebrow">Departure</div><p>Built in the same era of doing things properly.</p></div></div>
+      <div class="mosaic-item reveal reveal-d1" style="height:280px;"><img src="" data-img="life_estate" alt="Country estate"><div class="mosaic-cap"><div class="eyebrow">The Estate</div><p>Legacy, measured in generations, not quarters.</p></div></div>
+      <div class="mosaic-item reveal reveal-d2" style="height:360px;"><img src="" data-img="life_golf" alt="Morning on the green"><div class="mosaic-cap"><div class="eyebrow">First Light</div><p>The 84-hour reserve outlasts the weekend.</p></div></div>
+      <div class="mosaic-item reveal reveal-d3" style="height:300px;"><img src="" data-img="life_dining" alt="Candlelit dinner"><div class="mosaic-cap"><div class="eyebrow">The Table</div><p>Conversations worth losing track of time for.</p></div></div>
+      <div class="mosaic-item reveal" style="height:320px;"><img src="" data-img="life_horses" alt="Two horses"><div class="mosaic-cap"><div class="eyebrow">Provenance</div><p>Two bloodlines, one standard of breeding.</p></div></div>
+    </div>
+  </div>
+</section>
+<style>
+  /* ===== EXTERIOR / SPEC TABLE ===== */
+  .exterior{background:var(--paper); padding:130px 0;}
+  .exterior .grid{display:grid; grid-template-columns:.85fr 1.15fr; gap:70px;}
+  .exterior .head h2{font-size:var(--fs-h2-sm); color:var(--pine-deep); margin:16px 0 20px;}
+  .exterior .head p{font-size:var(--fs-body); color:#5a635f; font-weight:300; line-height:var(--lh-body); margin-bottom:10px;}
+  .spec-table{border-top:1px solid var(--line);}
+  .spec-table .row{display:grid; grid-template-columns:220px 1fr; gap:20px; padding:18px 0; border-bottom:1px solid var(--line);}
+  .spec-table .row span:first-child{font-size:var(--fs-caption); letter-spacing:.1em; text-transform:uppercase; color:var(--gold); font-weight:600;}
+  .spec-table .row span:last-child{font-size:var(--fs-body-sm); color:var(--ink); font-weight:400;}
+  .spec-table .section-label{padding:26px 0 10px; font-family:var(--serif); font-size:clamp(1.0625rem,1rem+0.3vw,1.1875rem); color:var(--pine); font-style:italic;}
+  .feature-tags{display:flex; flex-wrap:wrap; gap:10px; margin-top:24px;}
+  .feature-tags span{font-size:var(--fs-caption); letter-spacing:.08em; text-transform:uppercase; padding:9px 14px; border:1px solid var(--line); color:var(--pine); border-radius:2px;}
+
+  /* ===== CONSULT ===== */
+  .consult{background:var(--pine); color:#EAEFEC; padding:120px 0; position:relative; overflow:hidden;}
+  .consult::before{content:''; position:absolute; inset:0; background:radial-gradient(circle at 80% 20%, rgba(163,133,96,.16), transparent 55%);}
+  .consult .container{position:relative;}
+  .consult-grid{display:grid; grid-template-columns:1fr .9fr; gap:70px; align-items:start;}
+  .consult-left .eyebrow{color:var(--gold-soft);}
+  .consult-left h2{font-size:var(--fs-h2); color:#fff; margin:16px 0 20px;}
+  .consult-left p{font-size:var(--fs-body); color:#CBD3CE; font-weight:300; line-height:var(--lh-body); max-width:520px; margin-bottom:14px;}
+  .consult-left .avail{font-family:var(--serif); font-style:italic; color:var(--gold-soft); font-size:clamp(0.9375rem,0.9rem+0.25vw,1.0625rem); margin-top:22px;}
+  .consult-actions{display:flex; flex-direction:column; gap:14px;}
+  .consult-btn{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:20px 24px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.16); border-radius:2px;
+    transition:background .3s ease, border-color .3s ease, transform .3s ease;
+  }
+  .consult-btn:hover{background:rgba(255,255,255,.1); border-color:var(--gold-soft); transform:translateX(4px);}
+  .consult-btn .label{font-size:var(--fs-body-sm); color:#fff; font-weight:500;}
+  .consult-btn .sub{font-size:var(--fs-caption); color:#9FAFA8; margin-top:3px;}
+  .consult-btn .arrow{color:var(--gold-soft); font-size:18px;}
+
+  /* ===== FOOTER ===== */
+  footer{background:var(--pine-deep); color:#8B968F; padding:80px 0 30px;}
+  .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:50px; padding-bottom:60px; border-bottom:1px solid rgba(255,255,255,.08);}
+  .footer-brand .brandmark{color:#fff; margin-bottom:16px;}
+  .footer-brand p{font-size:var(--fs-body-sm); line-height:1.8; color:#7C8983; max-width:280px;}
+  .footer-col h4{font-size:var(--fs-caption); letter-spacing:.16em; text-transform:uppercase; color:var(--gold-soft); margin-bottom:18px;}
+  .footer-col a, .footer-col p{display:block; font-size:var(--fs-body-sm); color:#B0BAB4; margin-bottom:11px; line-height:1.6; transition:color .25s ease;}
+  .footer-col a:hover{color:#fff;}
+  .footer-social{display:flex; gap:14px; margin-top:6px;}
+  .footer-social a{
+    width:36px; height:36px; border:1px solid rgba(255,255,255,.15); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:var(--fs-caption); color:#B0BAB4; margin:0;
+  }
+  .footer-social a:hover{border-color:var(--gold-soft); color:var(--gold-soft);}
+  .footer-bottom{display:flex; justify-content:space-between; align-items:center; padding-top:26px; font-size:var(--fs-caption); color:#5E6B65; flex-wrap:wrap; gap:12px;}
+  .footer-bottom a{color:#5E6B65;}
+  .footer-bottom a:hover{color:#B0BAB4;}
+
+  /* ===== VINYL WIDGET ===== */
+  #vinyl-widget{
+    position:fixed; bottom:26px; left:26px; z-index:150;
+    display:flex; align-items:center; gap:12px;
+    background:rgba(3,17,13,.82); backdrop-filter:blur(10px);
+    padding:10px 18px 10px 10px; border-radius:40px; border:1px solid rgba(163,133,96,.35);
+    box-shadow:0 20px 50px -20px rgba(0,0,0,.6);
+    transition:transform .3s ease;
+  }
+  #vinyl-widget:hover{transform:translateY(-3px);}
+  #vinyl-disc{
+    width:44px; height:44px; border-radius:50%;
+    background:radial-gradient(circle at center, var(--gold) 0 6px, #1a1a1a 7px 15px, #0a0a0a 16px 100%);
+    position:relative; cursor:pointer; flex-shrink:0;
+    animation:spin 3.2s linear infinite; animation-play-state:paused;
+  }
+  #vinyl-disc::after{content:''; position:absolute; inset:0; border-radius:50%; background:repeating-radial-gradient(circle, transparent 0 2px, rgba(255,255,255,.04) 3px 4px);}
+  #vinyl-disc.playing{animation-play-state:running;}
+  @keyframes spin{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
+  .vinyl-label{display:flex; flex-direction:column; cursor:pointer;}
+  .vinyl-label .t1{font-size:var(--fs-caption); letter-spacing:.1em; text-transform:uppercase; color:var(--gold-soft); font-weight:600;}
+  .vinyl-label .t2{font-size:var(--fs-micro); color:#8B968F; margin-top:2px;}
+  #vinyl-bars{display:flex; align-items:flex-end; gap:2px; height:14px; margin-left:2px;}
+  #vinyl-bars span{width:2px; background:var(--gold-soft); height:4px; border-radius:1px; transition:height .15s ease;}
+
+  /* ===== KONAMI RETRO ===== */
+  #konami-screen{
+    position:fixed; inset:0; z-index:9999; background:#0a1a0f;
+    display:none; align-items:center; justify-content:center;
+    font-family:var(--mono);
+  }
+  #konami-screen.show{display:flex;}
+  .lcd-wrap{
+    background:#0d1f13; border:10px solid #050a07; border-radius:18px;
+    padding:60px 70px; text-align:center; box-shadow:inset 0 0 40px rgba(0,0,0,.7), 0 0 80px rgba(0,0,0,.6);
+  }
+  .lcd-brand{color:#4dff88; font-size:clamp(0.875rem,0.8rem+0.4vw,1rem); letter-spacing:.4em; margin-bottom:20px; text-shadow:0 0 8px rgba(77,255,136,.7);}
+  .lcd-time{color:#4dff88; font-size:clamp(2.75rem,2rem+8vw,7.5rem); letter-spacing:.05em; text-shadow:0 0 20px rgba(77,255,136,.8); line-height:1;}
+  .lcd-date{color:#39cc6f; font-size:clamp(0.8125rem,0.75rem+0.3vw,1.125rem); letter-spacing:.35em; margin-top:16px;}
+  .lcd-row{display:flex; gap:26px; justify-content:center; margin-top:34px; color:#2f9e56; font-size:var(--fs-caption); letter-spacing:.15em; flex-wrap:wrap;}
+  .lcd-note{margin-top:40px; color:#39cc6f; font-size:var(--fs-micro); letter-spacing:.2em; opacity:.75; animation:blink 1.4s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:1080px){
+    .container{padding:0 5vw;}
+    .heritage .grid{gap:46px;}
+    .craft-row{gap:50px; margin-bottom:110px;}
+    .caliber-strip{gap:44px;}
+  }
+  @media (max-width:900px){
+    .heritage .grid, .caliber-strip, .craft-row, .craft-row.rev, .exterior .grid, .consult-grid{grid-template-columns:1fr!important;}
+    .craft-row.rev .craft-media, .craft-row.rev .craft-text{order:initial;}
+    .spec-grid{grid-template-columns:repeat(2,1fr);}
+    .footer-grid{grid-template-columns:1fr 1fr; gap:36px;}
+    .mosaic{columns:2 160px;}
+    .heritage, .mechanical, .craft, .signature, .gallery, .exterior, .consult{padding-top:90px; padding-bottom:90px;}
+  }
+  @media (max-width:600px){
+    .container{padding:0 22px;}
+    .hero-content{padding:0 22px 8vh;}
+    .hero-actions{flex-direction:column; align-items:stretch;}
+    .btn{justify-content:center; padding:15px 26px;}
+    .spec-grid{grid-template-columns:1fr;}
+    .spec-card{min-height:auto; padding:30px 24px;}
+    .footer-grid{grid-template-columns:1fr; gap:34px;}
+    .footer-bottom{flex-direction:column; align-items:flex-start;}
+    .mosaic{columns:1 100%;}
+    .mosaic-item{height:auto!important;}
+    .mosaic-item img{aspect-ratio:4/3;}
+    #vinyl-widget{left:14px; bottom:14px; padding:7px 12px 7px 7px; gap:9px;}
+    #vinyl-disc{width:36px; height:36px;}
+    .vinyl-label .t2{display:none;}
+    .spec-table .row{grid-template-columns:1fr; gap:4px; padding:14px 0;}
+    .lcd-wrap{padding:30px 20px; border-width:7px;}
+    .heritage, .mechanical, .craft, .signature, .gallery, .exterior, .consult{padding-top:70px; padding-bottom:70px;}
+    .heritage-text, .craft-text, .caliber-text{text-align:left;}
+    .craft .head, .gallery .head, .signature .head{margin-bottom:50px;}
+  }
+  @media (max-width:380px){
+    .hero-price{font-size:.8125rem;}
+    .consult-btn{padding:16px 18px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{transition:none; opacity:1; transform:none;}
+    #vinyl-disc{animation:none;}
+    .scroll-cue .stem{animation:none;}
+  }
+</style>
+
+<section class="exterior" id="exterior">
+  <div class="container grid">
+    <div class="head reveal">
+      <div class="eyebrow">Specification</div>
+      <h2>Every measurement, disclosed.</h2>
+      <p>No rounding, no marketing language where a number will do. These are the published specifications of the SBGZ011.</p>
+      <div class="feature-tags">
+        <span>Limited Edition, case back</span>
+        <span>Serial number engraved</span>
+        <span>Extra KYOTO Leather strap</span>
+        <span>Power reserve indicator</span>
+      </div>
+    </div>
+    <div class="spec-table reveal reveal-d1">
+      <div class="section-label">Exterior</div>
+      <div class="row"><span>Case</span><span>Platinum 950, hand engraved, Zaratsu polished</span></div>
+      <div class="row"><span>Case Back</span><span>See-through, screw case back</span></div>
+      <div class="row"><span>Glass</span><span>Box-shaped sapphire crystal, anti-reflective coating (inner surface)</span></div>
+      <div class="row"><span>Case Size</span><span>Diameter 40.0mm · Lug-to-lug 45.2mm · Thickness 9.6mm</span></div>
+      <div class="row"><span>Band</span><span>19mm, crocodile leather (removable KYOTO Leather alternate included)</span></div>
+      <div class="row"><span>Clasp</span><span>Three-fold clasp, push-button release, Platinum 950 / 18k white gold</span></div>
+      <div class="section-label">Functions</div>
+      <div class="row"><span>Water Resistance</span><span>Splash resistant</span></div>
+      <div class="row"><span>Magnetic Resistance</span><span>4,800 A/m</span></div>
+      <div class="row"><span>Movement</span><span>Caliber 9R02, manual-winding Spring Drive, 39 jewels</span></div>
+      <div class="row"><span>Power Reserve</span><span>Approx. 84 hours</span></div>
+      <div class="row"><span>Edition</span><span>Limited to 50 pieces worldwide</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="consult" id="consult">
+  <div class="container consult-grid">
+    <div class="consult-left reveal">
+      <div class="eyebrow">Consultation Before Commitment</div>
+      <h2>Speak with a specialist before you decide.</h2>
+      <p>The SBGZ011 is one of fifty pieces made worldwide. Reserving one is a conversation, not a checkout flow — our specialists will walk you through availability, sizing, and the two straps included with this reference.</p>
+      <div class="avail">Book Now. Available June 2026.</div>
+    </div>
+    <div class="consult-actions reveal reveal-d1">
+      <a class="consult-btn" href="tel:+916366889232">
+        <div><div class="label">Call Personal Consultant</div><div class="sub">+91 63668 89232</div></div><span class="arrow">→</span>
+      </a>
+      <a class="consult-btn" href="https://api.whatsapp.com/send?phone=+916366889232&text=Hi%2C%20I%20would%20like%20to%20discuss%20about%20Grand%20Seiko.&source=&data=" target="_blank" rel="noopener">
+        <div><div class="label">Chat Now on WhatsApp</div><div class="sub">Typically replies within the hour</div></div><span class="arrow">→</span>
+      </a>
+      <a class="consult-btn" href="https://grandseikoboutique.in/pages/contact-us?type=visit" target="_blank" rel="noopener">
+        <div><div class="label">Visit Our Boutiques</div><div class="sub">Book a private viewing</div></div><span class="arrow">→</span>
+      </a>
+      <a class="consult-btn" href="tel:+916366889232">
+        <div><div class="label">Cheque or Netbanking Facility</div><div class="sub">Available on request</div></div><span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brandmark">GRAND SEIKO<span>MASTERPIECE COLLECTION</span></div>
+        <p>SBGZ011 — Platinum Hand Engraved Manual-winding Spring Drive. A Micro Artist Studio creation, Shinshu, Japan.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="YouTube">YT</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>The Watch</h4>
+        <a href="#heritage">Heritage</a>
+        <a href="#mechanical">Movement</a>
+        <a href="#craft">Craftsmanship</a>
+        <a href="#exterior">Specification</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="tel:+916366889232">+91 63668 89232</a>
+        <a href="https://api.whatsapp.com/send?phone=+916366889232" target="_blank" rel="noopener">WhatsApp Concierge</a>
+        <a href="https://grandseikoboutique.in/pages/contact-us?type=visit" target="_blank" rel="noopener">Boutique Locator</a>
+      </div>
+      <div class="footer-col">
+        <h4>Manufacture</h4>
+        <p>Seiko Watch Corporation, Japan</p>
+        <h4 style="margin-top:20px;">Importer</h4>
+        <p>Seiko Watch India Pvt Ltd, 874, Temple Vista Ground Floor, Indiranagar, Bangalore</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Grand Seiko Masterpiece Collection. Reference SBGZ011.</span>
+      <span><a href="#">Privacy</a> &nbsp;·&nbsp; <a href="#">Terms</a></span>
+    </div>
+  </div>
+</footer>
+
+<div id="vinyl-widget">
+  <div id="vinyl-disc"></div>
+  <div class="vinyl-label">
+    <span class="t1" id="vinylState">Play Ambience</span>
+    <span class="t2">Studio Waterfall, generative</span>
+  </div>
+  <div id="vinyl-bars"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  /* ---- inject images from /img folder ---- */
+  document.querySelectorAll('[data-img]').forEach(function(el){
+    var key = el.getAttribute('data-img');
+    el.src = 'img/' + key + '.jpg';
+  });
+  var heroVideo = document.getElementById('heroVideo');
+  if (heroVideo) heroVideo.src = 'img/hero.mp4';
+
+  /* ---- nav scroll state ---- */
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, {passive:true});
+
+  /* ---- scroll reveal ---- */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:.16, rootMargin:'0px 0px -60px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  /* ---- signature 3D engraved case viewer ---- */
+  (function(){
+    var wrap = document.getElementById('engraving-canvas-wrap');
+    if (!wrap || !window.THREE) return;
+    var w = wrap.clientWidth, h = wrap.clientHeight;
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(38, w/h, 0.1, 100);
+    camera.position.set(0, 0.3, 5.4);
+    var renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(w, h);
+    wrap.appendChild(renderer.domElement);
+
+    var key = new THREE.DirectionalLight(0xffffff, 1.4);
+    key.position.set(3, 4, 5);
+    scene.add(key);
+    var rim = new THREE.DirectionalLight(0xC7AC85, 1.1);
+    rim.position.set(-4, -2, -3);
+    scene.add(rim);
+    var amb = new THREE.AmbientLight(0x3a4a44, 0.9);
+    scene.add(amb);
+
+    var group = new THREE.Group();
+    scene.add(group);
+
+    var caseMat = new THREE.MeshStandardMaterial({color:0xd9d4c8, metalness:0.95, roughness:0.32});
+    var caseGeo = new THREE.CylinderGeometry(1.55, 1.55, 0.62, 64);
+    var caseMesh = new THREE.Mesh(caseGeo, caseMat);
+    caseMesh.rotation.x = Math.PI/2;
+    group.add(caseMesh);
+
+    var bezelMat = new THREE.MeshStandardMaterial({color:0xC7AC85, metalness:0.9, roughness:0.42});
+    var bezelGeo = new THREE.TorusGeometry(1.5, 0.14, 24, 96);
+    var bezelFront = new THREE.Mesh(bezelGeo, bezelMat);
+    bezelFront.position.z = 0.31;
+    group.add(bezelFront);
+    var bezelBack = bezelFront.clone();
+    bezelBack.position.z = -0.31;
+    group.add(bezelBack);
+
+    for (var i=0;i<64;i++){
+      var a = (i/64) * Math.PI*2;
+      var geo = new THREE.BoxGeometry(0.03, 0.62, 0.02);
+      var line = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({color:0xEDE7DA, metalness:0.7, roughness:0.55}));
+      line.position.set(Math.cos(a)*1.5, 0, Math.sin(a)*1.5);
+      line.lookAt(0,0,0);
+      group.add(line);
+    }
+
+    var dialMat = new THREE.MeshStandardMaterial({color:0xEDE9E0, metalness:0.55, roughness:0.5});
+    var dial = new THREE.Mesh(new THREE.CircleGeometry(1.28, 64), dialMat);
+    dial.position.z = 0.315;
+    group.add(dial);
+
+    for (var s=0;s<48;s++){
+      var ang = Math.random()*Math.PI*2;
+      var rad = Math.random()*1.15;
+      var seg = new THREE.Mesh(
+        new THREE.BoxGeometry(0.35+Math.random()*0.3, 0.02, 0.006),
+        new THREE.MeshStandardMaterial({color:0xffffff, metalness:0.3, roughness:0.7, transparent:true, opacity:0.35})
+      );
+      seg.position.set(Math.cos(ang)*rad, Math.sin(ang)*rad, 0.322);
+      seg.rotation.z = Math.random()*Math.PI;
+      group.add(seg);
+    }
+
+    for (var m=0;m<12;m++){
+      var ma = (m/12)*Math.PI*2;
+      var marker = new THREE.Mesh(
+        new THREE.BoxGeometry(0.05, 0.14, 0.02),
+        new THREE.MeshStandardMaterial({color:0xffffff, metalness:0.9, roughness:0.2})
+      );
+      marker.position.set(Math.cos(ma)*1.06, Math.sin(ma)*1.06, 0.335);
+      marker.rotation.z = ma + Math.PI/2;
+      group.add(marker);
+    }
+
+    var hourHand = new THREE.Mesh(new THREE.BoxGeometry(0.06,0.55,0.015), new THREE.MeshStandardMaterial({color:0xffffff, metalness:0.9, roughness:0.15}));
+    hourHand.position.set(0,0.18,0.34); hourHand.rotation.z = -0.6;
+    group.add(hourHand);
+    var minHand = new THREE.Mesh(new THREE.BoxGeometry(0.045,0.82,0.015), new THREE.MeshStandardMaterial({color:0xffffff, metalness:0.9, roughness:0.15}));
+    minHand.position.set(0,0.3,0.345); minHand.rotation.z = 0.9;
+    group.add(minHand);
+
+    group.rotation.x = 0.15;
+
+    var dragging = false, lastX = 0, lastY = 0, velX = 0, autoRotate = true;
+    wrap.addEventListener('pointerdown', function(e){ dragging = true; autoRotate = false; lastX = e.clientX; lastY = e.clientY; });
+    window.addEventListener('pointerup', function(){ dragging = false; });
+    window.addEventListener('pointermove', function(e){
+      if (!dragging) return;
+      var dx = e.clientX - lastX, dy = e.clientY - lastY;
+      group.rotation.y += dx * 0.008;
+      group.rotation.x += dy * 0.006;
+      group.rotation.x = Math.max(-0.9, Math.min(0.9, group.rotation.x));
+      velX = dx * 0.008;
+      lastX = e.clientX; lastY = e.clientY;
+    });
+
+    function animate(){
+      requestAnimationFrame(animate);
+      if (autoRotate) group.rotation.y += 0.0035;
+      else if (!dragging){ group.rotation.y += velX; velX *= 0.94; }
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', function(){
+      var nw = wrap.clientWidth, nh = wrap.clientHeight;
+      camera.aspect = nw/nh; camera.updateProjectionMatrix();
+      renderer.setSize(nw, nh);
+    });
+  })();
+
+  /* ---- vinyl ambient audio () ---- */
+  (function(){
+  var disc = document.getElementById('vinyl-disc');
+  var label = document.getElementById('vinylState');
+  var bars = document.getElementById('vinyl-bars');
+  var hVideo = document.getElementById('heroVideo');
+  for (var i=0;i<5;i++){ var b=document.createElement('span'); bars.appendChild(b); }
+  var barEls = bars.querySelectorAll('span');
+
+  var playing = false, barTimer;
+  function toggle(){
+    if (!hVideo) return;
+    if (!playing){
+      hVideo.muted = false;
+      disc.classList.add('playing');
+      label.textContent = 'Pause Ambience';
+      barTimer = setInterval(function(){
+        barEls.forEach(function(b){ b.style.height = (4 + Math.random()*12) + 'px'; });
+      }, 220);
+      playing = true;
+    } else {
+      hVideo.muted = true;
+      disc.classList.remove('playing');
+      label.textContent = 'Play Ambience';
+      clearInterval(barTimer);
+      barEls.forEach(function(b){ b.style.height='4px'; });
+      playing = false;
+    }
+  }
+  disc.addEventListener('click', toggle);
+  label.parentElement.addEventListener('click', toggle);
+})();
+
+  /* ---- konami code easter egg ---- */
+  (function(){
+    var seq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    var pos = 0;
+    var screen = document.getElementById('konami-screen');
+    var lcdTime = document.getElementById('lcdTime');
+    var lcdDate = document.getElementById('lcdDate');
+    var clockTimer;
+
+    function beep(freq, dur){
+      try{
+        var actx = new (window.AudioContext||window.webkitAudioContext)();
+        var o = actx.createOscillator(); var g = actx.createGain();
+        o.type = 'square'; o.frequency.value = freq;
+        g.gain.value = 0.06;
+        o.connect(g); g.connect(actx.destination);
+        o.start(); o.stop(actx.currentTime + dur);
+      }catch(e){}
+    }
+
+    function updateClock(){
+      var d = new Date();
+      var hh = d.getHours()%12; if(hh===0) hh=12;
+      var mm = d.getMinutes(); var ss = d.getSeconds();
+      lcdTime.textContent = (hh<10?'0'+hh:hh) + ':' + (mm<10?'0'+mm:mm) + ':' + (ss<10?'0'+ss:ss);
+      var days=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+      var months=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+      lcdDate.textContent = days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + (d.getDate()<10?'0'+d.getDate():d.getDate());
+    }
+
+    function activate(){
+      screen.classList.add('show');
+      updateClock();
+      clockTimer = setInterval(updateClock, 1000);
+      beep(880, .08); setTimeout(function(){beep(1320,.08);}, 90); setTimeout(function(){beep(1760,.14);}, 180);
+    }
+    function deactivate(){
+      screen.classList.remove('show');
+      clearInterval(clockTimer);
+    }
+
+    window.addEventListener('keydown', function(e){
+      if (screen.classList.contains('show')){
+        deactivate();
+        pos = 0;
+        return;
+      }
+      var k = e.key;
+      if (k === seq[pos]) { pos++; if (pos === seq.length){ activate(); pos = 0; } }
+      else { pos = (k === seq[0]) ? 1 : 0; }
+    });
+  })();
+
+})();
+</script>
+</body></html>
